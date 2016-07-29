@@ -3,7 +3,8 @@ var webpack = require('webpack');
 
 module.exports = {
   // or devtool: 'eval' to debug issues with compiled output:
-  devtool: 'cheap-module-eval-source-map',
+  // devtool: 'cheap-module-eval-source-map',
+  devtool: 'eval',
   entry: [
     // necessary for hot reloading with IE:
     'eventsource-polyfill',
@@ -15,7 +16,8 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: '/dist/'
+    // publicPath: '/dist/'
+    publicPath: '/static/'
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

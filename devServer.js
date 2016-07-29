@@ -6,6 +6,7 @@ var config = require('./webpack.config.dev');
 var app = express();
 var compiler = webpack(config);
 
+// tells express server to pass every request through webpack
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
   publicPath: config.output.publicPath
