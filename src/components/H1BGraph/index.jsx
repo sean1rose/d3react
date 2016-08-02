@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 // import d3 from 'd3';
 import { csv } from 'd3-request';
-import { format } from 'd3-time';
+import { timeFormat } from 'd3-time-format';
+
+console.log('format - ', timeFormat);
 
 export default class HIBGraph extends Component {
 	constructor() {
@@ -25,7 +27,7 @@ export default class HIBGraph extends Component {
 	loadRawData() {
 		// instead of having data in relative directory, could send post request here
 
-		let dateFormat = format("%m/%d/%Y");
+		let dateFormat = timeFormat("%m/%d/%Y");
 
 		csv(this.props.url)
 			.row((d) => {
@@ -36,11 +38,13 @@ export default class HIBGraph extends Component {
 				// cleans up keys parses dates into Date() obj and parses number-strings into numbers
 				return {
 					employer: d.employer,
-					submit_date: dateFormat.parse(d['submit date']),
-					start_date: dateFormat.parse(d['start date']),
+					// submit_date: dateFormat.parse(d['submit date']),
+					// start_date: dateFormat.parse(d['start date']),
+					submit_date: dateFormat(d['submit date']),
+					start_date: dateFormat(d['start date']),
 					case_status: d['case status'],
 					job_title: d['job title'],
-					clean_job_title: this.cleanJobs(d['job title']),
+					// clean_job_title: this.cleanJobs(d['job title']),
 					base_salary: Number(d['base salary']),
 					salary_to: d['salary to'] ? Number(d['salary to']) : null,
 					city: d.city,
@@ -59,6 +63,11 @@ export default class HIBGraph extends Component {
 	}
 
 	render() {
+		if (!this.state.rawData.length){
+			return (
+				<h2>Loading data for 81,000 H1B visas in the software industry...</h2>
+			);
+		}
 		return (
 				<div>
 					<svg>
